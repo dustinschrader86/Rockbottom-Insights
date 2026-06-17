@@ -1,4 +1,4 @@
-import { InsightResult } from "../capture/captureTypes";
+import { InsightResult } from "../insightTypes";
 import crypto from "crypto";
 
 /**
