@@ -10,7 +10,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - run: npm install --legacy-peer-deps
-      - run: npx eas-cli build --platform android --profile production --non-interactive
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      - name: Patch project ID
+        run: |
+          node -e "const fs=require('fs');const a=JSON.parse(fs.readFileSync('app.json','utf8'));if(!a.expo.extra)a.expo.extra={};a.expo.extra.eas={projectId:'ad5261cb-790e-4ff1-967b-7879c005758a'};a.expo.owner='rockbottomlabss-team';fs.writeFileSync('app.json',JSON.stringify(a,null,2));console.log('patched');"
+      - name: Build Android
+        run: npx eas-cli build --platform android --profile production --non-interactive
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }} 
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
