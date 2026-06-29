@@ -15,7 +15,7 @@ jobs:
       - name: Patch configs
         run: |
           node -e "const fs=require('fs');const a=JSON.parse(fs.readFileSync('app.json','utf8'));if(!a.expo.extra)a.expo.extra={};a.expo.extra.eas={projectId:'ad5261cb-790e-4ff1-967b-7879c005758a'};a.expo.owner='rockbottomlabss-team';fs.writeFileSync('app.json',JSON.stringify(a,null,2));console.log('app.json patched');"
-          node -e "const fs=require('fs');const e=JSON.parse(fs.readFileSync('eas.json','utf8'));e.build.production.npmFlags='--legacy-peer-deps';fs.writeFileSync('eas.json',JSON.stringify(e,null,2));console.log('eas.json patched');"
+          node -e "const fs=require('fs');const eas={cli:{version:'>= 12.0.0'},build:{development:{developmentClient:true,distribution:'internal'},preview:{android:{buildType:'apk'},distribution:'internal'},production:{android:{buildType:'app-bundle'},npmFlags:'--legacy-peer-deps'}},submit:{production:{android:{serviceAccountKeyPath:'./google-service-account.json',track:'internal'}}}};fs.writeFileSync('eas.json',JSON.stringify(eas,null,2));console.log('eas.json written');"
       - name: Build Android
         run: npx eas-cli build --platform android --profile production --non-interactive
         env:
